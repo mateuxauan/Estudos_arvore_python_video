@@ -1,3 +1,4 @@
+import random
 
 
 class Node :
@@ -13,8 +14,10 @@ class Node :
 
 class BinaryTree:
     # definição da arvore:
-    def __init__(self,data=None):
-        if data:
+    def __init__(self,data=None, node = None):
+        if node:
+            self.root = node
+        elif data:
             node = Node(data)
             self.root = node
         else:
@@ -61,7 +64,49 @@ class BinaryTree:
             return hright +1
         return hleft+1
 
-         
+# arvore binária de busca:
+class BinarySearchTree(BinaryTree):
+    # função insere :
+    def insert(self , value):
+        parent = None
+        x = self.root
+        while(x):
+            parent = x
+            if value < x.data :
+                x = x.left
+            else:
+                x = x.right
+        if parent is None :
+            self.root = Node(value)
+        elif value < parent.data :
+            parent.left = Node(value)
+
+        else:
+            parent.right = Node(value)
+    
+    # função de busca :
+    def search (self, value , node = 0 ):
+        if node == 0 :
+            node = self.root
+        if node is None or node.data == value:
+            return BinarySearchTree(node)
+        if value < node.data:
+            return self.search(value, node.left)
+        return self.search(value,node.right )
+    
+#    def inorder_traversal(self , node = None):
+#         if node is None:
+#            node = self.root
+#        if node.left:
+#            self.inorder_traversal(node.left)      
+#        print(node , end=" ")
+#        if node.right:
+#            self.inorder_traversal(node.right) 
+
+
+
+
+
 
 # teste :
 
@@ -106,6 +151,7 @@ if  __name__ == "__main__" :
     tree.postorder_traversal() 
     print( "altura é : ", tree.hight())
 
+
 # forma de arvore:
 #
 #
@@ -124,3 +170,4 @@ if  __name__ == "__main__" :
 # forma linear:
 #
 # ((ie(nrcs)))e(av)s-))         
+
