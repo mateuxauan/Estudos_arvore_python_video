@@ -35,13 +35,35 @@ class BinaryTree:
         if node.right:
             self.simetric_traversal(node.right)
             print(")", end="")
-        
+
+    #percurso em pós ordem:
+    def postorder_traversal(self, node=None):
+        if node is None :
+            node = self.root
+        if node.left :
+            self.postorder_traversal(node.left)
+        if node.right:
+            self.postorder_traversal(node.right)
+        print(node)    
+
+    # calcular altura da arvore 
+    def hight(self, node=None):
+        if node is None :
+            node = self.root
+        hleft = 0
+        hright = 0   
+        if node.left :
+            hleft = self.hight(node.left)
+        if node.right:
+            hright = self.hight(node.right)
+
+        if hright > hleft :
+            return hright +1
+        return hleft+1
+
          
 
-
-
-
-
+# teste :
 
 if  __name__ == "__main__" :
     # tree = BinaryTree(7)
@@ -54,42 +76,51 @@ if  __name__ == "__main__" :
 
     
     tree = BinaryTree()
-    n1=Node('a')
-    n2=Node('+')
-    n3=Node('*')
-    n4=Node('b')
-    n5=Node('-')
-    n6=Node('/')
-    n7=Node('c')
-    n8=Node('d')
-    n9=Node('e')
+    n1=Node('i')
+    n2=Node('n')
+    n3=Node('s')
+    n4=Node('c')
+    n5=Node('r')
+    n6=Node('e')
+    n7=Node('v')
+    n8=Node('a')
+    n9=Node('s')
+    n10=Node('e')
+    n11=Node("-")
 
-    n6.left = n7
-    n6.right = n8
-    n5.left = n6
-    n5.right = n9
-    n3.left = n4
-    n3.right = n5
-    n2.left = n1
-    n2.right = n3
+    n6.left = n1
+    n6.right = n5
+    n5.left = n2
+    n5.right = n4
+    n4.right = n3
+    n9.left = n8
+    n8.right = n7
+    n10.left = n6
+    n10.right = n9
+    n9.right = n11
 
-    tree.root = n2
+    tree.root = n10
 
     tree.simetric_traversal()
+    print("agora a pos ordem")
+    tree.postorder_traversal() 
+    print( "altura é : ", tree.hight())
 
 # forma de arvore:
 #
 #
-#              '+'
-#             /    \
-#           'a'     '*'
-#                   /   \
-#                'b'     '-'
-#                      /    \
-#                    '/'     'e'
-#                   /  \
-#                 'c'   'd'
+#                  'e'
+#             /          \
+#           'e'           's'
+#          /   \         /   \ 
+#        'i'   'r'      'a'   '-'
+#              /  \       \ 
+#            'n'   'c'     'v'
+#                    \
+#                    's'
+#
+#
 #
 # forma linear:
 #
-# (a + (b * (( c / d ) - e )))          
+# ((ie(nrcs)))e(av)s-))         
