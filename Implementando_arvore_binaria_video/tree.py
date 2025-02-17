@@ -94,15 +94,22 @@ class BinarySearchTree(BinaryTree):
             return self.search(value, node.left)
         return self.search(value,node.right )
     
-#    def inorder_traversal(self , node = None):
-#         if node is None:
-#            node = self.root
-#        if node.left:
-#            self.inorder_traversal(node.left)      
-#        print(node , end=" ")
-#        if node.right:
-#            self.inorder_traversal(node.right) 
+    def inorder_traversal(self , node = None):
+        if node is None:
+            node = self.root
+        if node.left:
+            self.inorder_traversal(node.left)      
+        print(node , end=" ")
+        if node.right:
+            self.inorder_traversal(node.right) 
 
+    # Função contem usando o search 
+    def contem(self, value):
+        result = self.search(value)
+        if result.root is not None:
+            print(f"O número {value} está na árvore.")
+        else:
+            print(f"O número {value} não está na árvore.")
 
 
 
@@ -110,7 +117,7 @@ class BinarySearchTree(BinaryTree):
 
 # teste :
 
-if  __name__ == "__main__" :
+# if  __name__ == "__main__" :
     # tree = BinaryTree(7)
     # tree.root.left = Node(18)
     # tree.root.right = Node(14)
@@ -120,36 +127,36 @@ if  __name__ == "__main__" :
     # print(tree.root.right)
 
     
-    tree = BinaryTree()
-    n1=Node('i')
-    n2=Node('n')
-    n3=Node('s')
-    n4=Node('c')
-    n5=Node('r')
-    n6=Node('e')
-    n7=Node('v')
-    n8=Node('a')
-    n9=Node('s')
-    n10=Node('e')
-    n11=Node("-")
+    # tree = BinaryTree()
+    # n1=Node('i')
+    # n2=Node('n')
+    # n3=Node('s')
+    # n4=Node('c')
+    # n5=Node('r')
+    # n6=Node('e')
+    # n7=Node('v')
+    # n8=Node('a')
+    # n9=Node('s')
+    # n10=Node('e')
+    # n11=Node("-")
 
-    n6.left = n1
-    n6.right = n5
-    n5.left = n2
-    n5.right = n4
-    n4.right = n3
-    n9.left = n8
-    n8.right = n7
-    n10.left = n6
-    n10.right = n9
-    n9.right = n11
+    # n6.left = n1
+    # n6.right = n5
+    # n5.left = n2
+    # n5.right = n4
+    # n4.right = n3
+    # n9.left = n8
+    # n8.right = n7
+    # n10.left = n6
+    # n10.right = n9
+    # n9.right = n11
 
-    tree.root = n10
+    # tree.root = n10
 
-    tree.simetric_traversal()
-    print("agora a pos ordem")
-    tree.postorder_traversal() 
-    print( "altura é : ", tree.hight())
+    # tree.simetric_traversal()
+    # print("agora a pos ordem")
+    # tree.postorder_traversal() 
+    # print( "altura é : ", tree.hight())
 
 
 # forma de arvore:
@@ -171,3 +178,19 @@ if  __name__ == "__main__" :
 #
 # ((ie(nrcs)))e(av)s-))         
 
+
+arvore = BinarySearchTree()
+arvore.insert(10)
+arvore.insert(20)
+arvore.insert(5)
+arvore.insert(100)
+arvore.insert(1)
+arvore.insert(3)
+arvore.inorder_traversal()
+altura= arvore.hight()
+print()
+print(f"altura : {altura}")
+print()
+
+arvore.contem(10)
+arvore.contem(200)
