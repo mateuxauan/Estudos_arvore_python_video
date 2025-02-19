@@ -111,6 +111,21 @@ class BinarySearchTree(BinaryTree):
         else:
             print(f"O número {value} não está na árvore.")
 
+    # função que gera a lista da arvore
+    def geraLista(self , node=0):
+        lista =[]
+        if node == 0 :
+            node = self.root
+        if node == None:
+            print("arvore vazia")
+        if not node.left == None :
+            lista = self.geraLista(node.left)
+        lista.append (node.data)
+        if not node.right == None:
+            lista.extend(self.geraLista(node.right))
+        
+        return lista 
+
 
 
 
@@ -180,17 +195,14 @@ class BinarySearchTree(BinaryTree):
 
 
 arvore = BinarySearchTree()
-arvore.insert(10)
-arvore.insert(20)
-arvore.insert(5)
-arvore.insert(100)
-arvore.insert(1)
-arvore.insert(3)
-arvore.inorder_traversal()
-altura= arvore.hight()
-print()
-print(f"altura : {altura}")
-print()
 
-arvore.contem(10)
-arvore.contem(200)
+
+
+for val in [2,4,7,1,8,9]:
+    arvore.insert(val)
+
+
+lista = arvore.geraLista()
+print(lista)
+
+
