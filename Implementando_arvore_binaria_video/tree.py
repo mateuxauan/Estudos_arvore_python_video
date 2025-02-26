@@ -125,7 +125,43 @@ class BinarySearchTree(BinaryTree):
             lista.extend(self.geraLista(node.right))
         
         return lista 
+    
+    def min ( self , node = 0 ):
+        if node ==0 :
+            node = self.root
+        while node.left:
+            node = node.left
+        return node.data
 
+    def max ( self , node = 0 ):
+        if node ==0 :
+            node = self.root
+        while node.right:
+            node = node.right 
+        return node.data
+
+    def remove(self , value , node =0 ):
+        if node == 0:
+            node = self.root
+        if node == None :
+            print ("arvore vazia") 
+        # remove folha
+        if value < node.data:
+            node.left = self.remove(value , node.left)
+        elif value > node.data:
+            node.right = self.remove(value , node.right)
+        else :
+            # 1 filho
+            if node.left is None :
+                return node.right
+            elif node.right is None:
+                return node.left
+            # 2 filhos
+            else : 
+                substituto = self.min(node.right)
+                node.data = substituto
+                node.right = self.remove(substituto , node.right)
+        return node
 
 
 
@@ -204,5 +240,7 @@ for val in [2,4,7,1,8,9]:
 
 lista = arvore.geraLista()
 print(lista)
-
+arvore.remove(4)
+listaNova=arvore.geraLista()
+print (listaNova)
 
