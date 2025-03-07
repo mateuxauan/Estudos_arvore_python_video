@@ -1,4 +1,5 @@
 import random
+from collections import deque
 
 
 class Node :
@@ -162,85 +163,78 @@ class BinarySearchTree(BinaryTree):
                 node.data = substituto
                 node.right = self.remove(substituto , node.right)
         return node
-
-
-
-
-# teste :
-
-# if  __name__ == "__main__" :
-    # tree = BinaryTree(7)
-    # tree.root.left = Node(18)
-    # tree.root.right = Node(14)
-
-    # print(tree.root)
-    # print(tree.root.left)
-    # print(tree.root.right)
-
     
-    # tree = BinaryTree()
-    # n1=Node('i')
-    # n2=Node('n')
-    # n3=Node('s')
-    # n4=Node('c')
-    # n5=Node('r')
-    # n6=Node('e')
-    # n7=Node('v')
-    # n8=Node('a')
-    # n9=Node('s')
-    # n10=Node('e')
-    # n11=Node("-")
+    # rotação para direita 
+    def rotacao_direita(self, node):
+        if node is None or node.left is None:
+            return node  # Não pode rotacionar se não houver filho esquerdo
 
-    # n6.left = n1
-    # n6.right = n5
-    # n5.left = n2
-    # n5.right = n4
-    # n4.right = n3
-    # n9.left = n8
-    # n8.right = n7
-    # n10.left = n6
-    # n10.right = n9
-    # n9.right = n11
+        new_root = node.left
+        node.left = new_root.right
+        new_root.right = node
 
-    # tree.root = n10
+        return new_root
 
-    # tree.simetric_traversal()
-    # print("agora a pos ordem")
-    # tree.postorder_traversal() 
-    # print( "altura é : ", tree.hight())
+    def balance_from_list(self):
+    #Criar lista ordenada com os elementos
+        lista = self.geraLista()
 
+    #Construir árvore balanceada a partir da lista
+        def construir_arvore(lista):
+            if not lista:
+                return None
+            meio = len(lista) // 2
+            novo_no = Node(lista[meio])  # Escolhe o nó do meio como raiz
+            novo_no.left = construir_arvore(lista[:meio])  # Subárvore esquerda
+            novo_no.right = construir_arvore(lista[meio + 1:])  # Subárvore direita
+            return novo_no
+        self.root = construir_arvore(lista)
 
-# forma de arvore:
-#
-#
-#                  'e'
-#             /          \
-#           'e'           's'
-#          /   \         /   \ 
-#        'i'   'r'      'a'   '-'
-#              /  \       \ 
-#            'n'   'c'     'v'
-#                    \
-#                    's'
-#
-#
-#
-# forma linear:
-#
-# ((ie(nrcs)))e(av)s-))         
+    def print_tree_structure(self):
+        if self.root is None:
+            print("Árvore vazia")
+            return
+        
+        queue = deque([(self.root, 0)])  # Fila para BFS (nó, nível)
+        current_level = 0
+        level_nodes = []
+    
+        while queue:
+            node, level = queue.popleft()
+        
+            if level != current_level:  # Mudança de nível
+                print(" | ".join(level_nodes))  # Imprime a linha anterior
+                level_nodes = []
+                current_level = level
+        
+            level_nodes.append(str(node.data))
+        
+            if node.left:
+                queue.append((node.left, level + 1))
+            if node.right:
+                queue.append((node.right, level + 1))
+    
+        print(" | ".join(level_nodes))  # Imprime o último nível
 
+#testes:
 
 arvore = BinarySearchTree()
 
-
-
-for val in [2,4,7,1,8,9]:
+for val in [1,2,3,4,5,6,7,8,9,10]:
     arvore.insert(val)
-
 
 lista = arvore.geraLista()
 print(lista)
-arvore.remove(4)
+
 listaNova=arvore.geraLista()
 print (listaNova)
+
+arvore.print_tree_structure()
+
+print("agora a arvore balanceada:")
+arvore.balance_from_list()
+arvore.print_tree_structure()
+
+
+
 
