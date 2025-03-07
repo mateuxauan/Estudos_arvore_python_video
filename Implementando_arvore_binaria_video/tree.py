@@ -216,11 +216,80 @@ class BinarySearchTree(BinaryTree):
     
         print(" | ".join(level_nodes))  # Imprime o último nível
 
+    def balance_tree(self):
+        # Retorna a altura de um nó
+        def altura(node):
+            if node is None:
+                return 0
+            return max(altura(node.left), altura(node.right)) + 1
+
+        # Calcula o fator de balanceamento de um nó
+        def fator_balanceamento(node):
+            if node is None:
+                return 0
+            return altura(node.left) - altura(node.right)
+
+        # Rotação para direita (LL)
+        def rotacao_direita(node):
+            if node is None or node.left is None:
+                return node
+            new_root = node.left
+            node.left = new_root.right
+            new_root.right = node
+            return new_root
+
+        # Rotação para esquerda (RR)
+        def rotacao_esquerda(node):
+            if node is None or node.right is None:
+                return node
+            new_root = node.right
+            node.right = new_root.left
+            new_root.left = node
+            return new_root
+
+        # Balanceia um nó específico
+        def balancear_no(node):
+            if node is None:
+                return node
+
+            fb = fator_balanceamento(node)
+
+            # Caso LL (Rotação Direita)
+            if fb > 1 and fator_balanceamento(node.left) >= 0:
+                return rotacao_direita(node)
+
+            # Caso RR (Rotação Esquerda)
+            if fb < -1 and fator_balanceamento(node.right) <= 0:
+                return rotacao_esquerda(node)
+
+            # Caso LR (Rotação Esquerda + Direita)
+            if fb > 1 and fator_balanceamento(node.left) < 0:
+                node.left = rotacao_esquerda(node.left)
+                return rotacao_direita(node)
+
+            # Caso RL (Rotação Direita + Esquerda)
+            if fb < -1 and fator_balanceamento(node.right) > 0:
+                node.right = rotacao_direita(node.right)
+                return rotacao_esquerda(node)
+
+            return node  # Retorna o nó já balanceado
+
+        # Balanceia a árvore inteira
+        def balancear_arvore(node):
+            if node is None:
+                return None
+            node.left = balancear_arvore(node.left)
+            node.right = balancear_arvore(node.right)
+            return balancear_no(node)
+
+        # Atualiza a raiz
+        self.root = balancear_arvore(self.root)
+
 #testes:
 
 arvore = BinarySearchTree()
 
-for val in [1,2,3,4,5,6,7,8,9,10]:
+for val in [1,3,5,77,84,2,4,5]:
     arvore.insert(val)
 
 lista = arvore.geraLista()
@@ -232,7 +301,8 @@ print (listaNova)
 arvore.print_tree_structure()
 
 print("agora a arvore balanceada:")
-arvore.balance_from_list()
+
+arvore.balance_tree()
 arvore.print_tree_structure()
 
 
